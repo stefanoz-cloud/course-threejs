@@ -60,5 +60,4 @@ const animate = () =>
     // Call tick again on the next frame
     window.requestAnimationFrame(animate);
 }
-
 animate();
