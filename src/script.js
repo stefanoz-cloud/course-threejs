@@ -1,5 +1,6 @@
 import './style.css'
 import * as THREE from 'three'
+import { Float32BufferAttribute } from 'three';
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl');
@@ -17,8 +18,26 @@ camera.position.z = 5;
 scene.add(camera);
 
 // Object
-const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-const material = new THREE.MeshBasicMaterial( {color: 0x00ffff} );
+const geometry = new THREE.BoxGeometry( 1, 1, 1 ).toNonIndexed();
+const material = new THREE.MeshBasicMaterial( {vertexColors: true} );
+const positionAttribute = geometry.getAttribute('position');
+  const colors = [];
+
+  const color = new THREE.Color();
+
+  for (let i = 0; i < positionAttribute.count; i += 6) {
+
+    color.setHex(0xffffff * Math.random());
+
+    colors.push(color.r, color.g, color.b);
+    colors.push(color.r, color.g, color.b);
+    colors.push(color.r, color.g, color.b);
+
+    colors.push(color.r, color.g, color.b);
+    colors.push(color.r, color.g, color.b);
+    colors.push(color.r, color.g, color.b);
+  } // for
+geometry.setAttribute('color', new Float32BufferAttribute(colors, 3));
 // Mesh Object And Add In Scene
 const object = new THREE.Mesh(geometry,material);
 scene.add(object);
